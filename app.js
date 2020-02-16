@@ -1,8 +1,8 @@
-const inquirer = require("inquirer");
-const Intern = require("./lib/Intern");
-const Engineer = require("./lib/Engineer");
-const Manager = require("./lib/Manager");
-const fs = require("fs");
+const inquirer = require("inquirer"),
+  Intern = require("./lib/Intern"),
+  Engineer = require("./lib/Engineer"),
+  Manager = require("./lib/Manager"),
+  fs = require("fs");
 
 async function main() {
   async function getRole() {
@@ -41,7 +41,32 @@ async function main() {
   const id = await userQuery("What is your company ID?");
 
   let newObj = await makeObj();
-  console.log(newObj);
+  //   console.log(newObj);
+
+  let lastKey;
+  if (role === "Engineer") {
+    lastKey = "Github: ";
+  } else if (role === "Intern") {
+    lastKey = "School: ";
+  } else {
+    lastKey = "Office number: ";
+  }
+
+  function getLastVal() {
+    if (newObj.getRole() === "Engineer") {
+      return newObj.getGithub();
+    } else if (newObj.getRole() === "Intern") {
+      return newObj.getSchool();
+    } else {
+      return newObj.getOfficeNumber();
+    }
+  }
+
+  let lastVal = getLastVal();
+
+  if (newObj.getRole === "Engineer") {
+    newObjFunc = newObj.getGithub();
+  }
 
   let cardHTML = `<div class="card my-1 mx-2" style="width: 18rem;">
   <div
@@ -50,18 +75,18 @@ async function main() {
   >
     <div class="titleRow">
      <h2 class="card-title">
-    ${newObj[0]}
+    ${newObj.name}
   </h2>
   <h2>${newObj.getRole()}</h2>
   </div>
   
   <p class="card-text my-2">
-  ID: ${newObj[1]}
+  ID: ${newObj.id}
 </p>
 <hr />
-<p>Email: ${newObj[2]}</p>
+<p>Email: ${newObj.email}</p>
 <hr />
-<p>Github: ${newObj[3]}</p>
+<p>${lastKey}${lastVal}</p>
   </div>
   </div>`;
 
@@ -148,5 +173,7 @@ async function main() {
     if (err) throw err;
     console.log("The file has been saved!");
   });
+  //   console.log(newObj);
+  //   console.log(cardHTML);
 }
 main();
