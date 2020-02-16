@@ -1,0 +1,26 @@
+{
+  "name": "empEngine",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kpresta04/empEngine.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kpresta04/empEngine/issues"
+  },
+  "homepage": "https://github.com/kpresta04/empEngine#readme",
+  "dependencies": {
+    "inquirer": "^7.0.4"
+  },
+  "devDependencies": {
+    "jest": "^25.1.0"
+  }
+}
