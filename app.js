@@ -5,70 +5,78 @@ const inquirer = require("inquirer"),
   fs = require("fs");
 
 async function main() {
-  async function getRole() {
-    let roleQuery = await inquirer.prompt({
-      type: "checkbox",
-      message: "What is your title?",
-      name: "role",
-      choices: ["Engineer", "Manager", "Intern"]
-    });
-    return roleQuery.role.toString();
-  }
   async function userQuery(message) {
     let uq = await inquirer.prompt({
       message: message,
       name: "result"
     });
+
     return uq.result;
   }
+  let teamCount = await userQuery(
+    "How many team members would you like to create?"
+  );
+  let cardHTMLArray = [];
 
-  async function makeObj() {
+  for (let i = 0; i < teamCount; i++) {
+    async function getRole() {
+      let roleQuery = await inquirer.prompt({
+        type: "checkbox",
+        message: "Enter team member's title",
+        name: "role",
+        choices: ["Engineer", "Manager", "Intern"]
+      });
+      return roleQuery.role.toString();
+    }
+
+    async function makeObj() {
+      if (role === "Engineer") {
+        const github = await userQuery("What is their github username?");
+        return new Engineer(empName, id, email, github);
+      } else if (role === "Manager") {
+        const officeNum = await userQuery("What is their office number?");
+        return new Manager(empName, id, email, officeNum);
+      } else {
+        const schoolName = await userQuery("What is the name of their school?");
+        return new Intern(empName, id, email, schoolName);
+      }
+    }
+
+    const empName = await userQuery("What is team member's name?");
+    const role = await getRole();
+    const email = await userQuery("What is team member's email?");
+    const id = await userQuery("What is team member's company ID?");
+
+    let newObj = await makeObj();
+    console.log("==============================");
+    //   console.log(newObj);
+
+    let lastKey;
     if (role === "Engineer") {
-      const github = await userQuery("What is your github username?");
-      return new Engineer(empName, id, email, github);
-    } else if (role === "Manager") {
-      const officeNum = await userQuery("What is your office number?");
-      return new Manager(empName, id, email, officeNum);
+      lastKey = "Github: ";
+    } else if (role === "Intern") {
+      lastKey = "School: ";
     } else {
-      const schoolName = await userQuery("What is the name of your school?");
-      return new Intern(empName, id, email, schoolName);
+      lastKey = "Office number: ";
     }
-  }
 
-  const empName = await userQuery("What is your name?");
-  const role = await getRole();
-  const email = await userQuery("What is your email?");
-  const id = await userQuery("What is your company ID?");
-
-  let newObj = await makeObj();
-  //   console.log(newObj);
-
-  let lastKey;
-  if (role === "Engineer") {
-    lastKey = "Github: ";
-  } else if (role === "Intern") {
-    lastKey = "School: ";
-  } else {
-    lastKey = "Office number: ";
-  }
-
-  function getLastVal() {
-    if (newObj.getRole() === "Engineer") {
-      return newObj.getGithub();
-    } else if (newObj.getRole() === "Intern") {
-      return newObj.getSchool();
-    } else {
-      return newObj.getOfficeNumber();
+    function getLastVal() {
+      if (newObj.getRole() === "Engineer") {
+        return newObj.getGithub();
+      } else if (newObj.getRole() === "Intern") {
+        return newObj.getSchool();
+      } else {
+        return newObj.getOfficeNumber();
+      }
     }
-  }
 
-  let lastVal = getLastVal();
+    let lastVal = getLastVal();
 
-  if (newObj.getRole === "Engineer") {
-    newObjFunc = newObj.getGithub();
-  }
+    // if (newObj.getRole === "Engineer") {
+    //   newObjFunc = newObj.getGithub();
+    // }
 
-  let cardHTML = `<div class="card my-1 mx-2" style="width: 18rem;">
+    let cardHTML = `<div class="card my-1 mx-2" style="width: 18rem;">
   <div
     class="card-body"
     style="background-color: rgb(250, 234, 234);"
@@ -89,6 +97,9 @@ async function main() {
 <p>${lastKey}${lastVal}</p>
   </div>
   </div>`;
+
+    cardHTMLArray.push(cardHTML);
+  }
 
   let pageHTML = `<!DOCTYPE html>
 <html lang="en">
@@ -139,7 +150,9 @@ async function main() {
         <h1 class="text-center">My Team</h1>
       </div>
       <div class="row">
-        <div class="col justify-content-center" id="cardCol">${cardHTML}
+        <div class="col justify-content-center" id="cardCol">${cardHTMLArray.join(
+          ""
+        )}
           
 
         
