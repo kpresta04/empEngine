@@ -88,7 +88,13 @@ async function main() {
      <h1 class="card-title">
     ${newObj.name}
   </h1>
-  <h1>${newObj.getRole()}</h1>
+  <div>
+  
+  <img class="mr-1" style="vertical-align:initial;" src=${newObj.image} >
+
+  <h1 style="display: inline">${newObj.getRole()}</h1>
+  </div>
+  
   </div>
   
   <p class="card-text my-2">
