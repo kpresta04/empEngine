@@ -57,25 +57,6 @@ async function main() {
 
     let newObj = await makeObj();
     console.log("=====================================");
-    function getLastVal() {
-      if (newObj.getRole() === "Engineer") {
-        return newObj.getGithub();
-      } else if (newObj.getRole() === "Intern") {
-        return newObj.getSchool();
-      } else {
-        return newObj.getOfficeNumber();
-      }
-    }
-    let lastVal = getLastVal();
-
-    let lastKey;
-    if (role === "Engineer") {
-      lastKey = `<a href="https://github.com/${lastVal}">Github</a>`;
-    } else if (role === "Intern") {
-      lastKey = `School: ${lastVal}`;
-    } else {
-      lastKey = `Office number: ${lastVal}`;
-    }
 
     let cardHTML = `
     <div class="col justify-content-center">
@@ -104,7 +85,7 @@ async function main() {
 <p>Email: <a href="mailto:${newObj.email}">${newObj.email}</a>
 </p>
 <hr />
-<p>${lastKey}</p>
+<p>${newObj.lastKey}</p>
   </div>
   </div>
   </div>`;
