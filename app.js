@@ -76,7 +76,9 @@ async function main() {
     //   newObjFunc = newObj.getGithub();
     // }
 
-    let cardHTML = `<div class="card my-1 mx-2" style="width: 18rem;">
+    let cardHTML = `
+    <div class="col justify-content-center">
+    <div class="card my-1 mx-auto" style="width: 18rem;">
   <div
     class="card-body"
     style="background-color: rgb(250, 234, 234);"
@@ -95,6 +97,7 @@ async function main() {
 <p>Email: ${newObj.email}</p>
 <hr />
 <p>${lastKey}${lastVal}</p>
+  </div>
   </div>
   </div>`;
 
@@ -124,6 +127,8 @@ async function main() {
       body,
       html {
         height: 100%;
+        width: 100%;
+        position: fixed;
       }
       #headerRow {
         color: white;
@@ -135,12 +140,16 @@ async function main() {
       }
       .col {
         display: flex;
-        margin: 4em;
+        margin-top: 4em;
       }
       .titleRow {
         color: white;
         background-color: #3d7bff;
         padding: 1em;
+      }
+      .container-fluid {
+        padding-left: 0;
+        padding-right: 0;
       }
     </style>
   </head>
@@ -150,15 +159,13 @@ async function main() {
         <h1 class="text-center">My Team</h1>
       </div>
       <div class="row">
-        <div class="col justify-content-center" id="cardCol">${cardHTMLArray.join(
-          ""
-        )}
+        ${cardHTMLArray.join("")}
           
 
         
           
           <!-- card col ends -->
-        </div>
+       
       </div>
     </div>
     <!-- Optional JavaScript -->
