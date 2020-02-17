@@ -11,6 +11,7 @@ async function main() {
     }
     return true;
   }
+
   async function userQuery(message) {
     let uq = await inquirer.prompt({
       message: message,
@@ -29,7 +30,7 @@ async function main() {
   for (let i = 0; i < teamCount; i++) {
     async function getRole() {
       let roleQuery = await inquirer.prompt({
-        type: "checkbox",
+        type: "list",
         message: "Enter team member's title",
         name: "role",
         choices: ["Engineer", "Manager", "Intern"]
