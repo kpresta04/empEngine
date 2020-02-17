@@ -5,10 +5,18 @@ const inquirer = require("inquirer"),
   fs = require("fs");
 
 async function main() {
+  async function inqValidator(input) {
+    if (input === "") {
+      return "Invalid input";
+    }
+    return true;
+  }
   async function userQuery(message) {
     let uq = await inquirer.prompt({
       message: message,
-      name: "result"
+      name: "result",
+      type: "input",
+      validate: inqValidator
     });
 
     return uq.result;
@@ -48,7 +56,7 @@ async function main() {
     const id = await userQuery("What is team member's company ID?");
 
     let newObj = await makeObj();
-    console.log("========================================================");
+    console.log("=====================================");
     function getLastVal() {
       if (newObj.getRole() === "Engineer") {
         return newObj.getGithub();
@@ -58,7 +66,6 @@ async function main() {
         return newObj.getOfficeNumber();
       }
     }
-    //   console.log(newObj);
     let lastVal = getLastVal();
 
     let lastKey;
@@ -69,10 +76,6 @@ async function main() {
     } else {
       lastKey = `Office number: ${lastVal}`;
     }
-
-    // if (newObj.getRole === "Engineer") {
-    //   newObjFunc = newObj.getGithub();
-    // }
 
     let cardHTML = `
     <div class="col justify-content-center">
@@ -198,7 +201,5 @@ async function main() {
     if (err) throw err;
     console.log("The file has been saved!");
   });
-  //   console.log(newObj);
-  //   console.log(cardHTML);
 }
 main();
