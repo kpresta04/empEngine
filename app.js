@@ -76,7 +76,7 @@ async function main() {
 
     let cardHTML = `
     <div class="col justify-content-center">
-    <div class="card my-1 mx-auto shadow-lg p-1 rounded" style="width: 80%;">
+    <div class="card my-1 mx-auto shadow-lg p-1 rounded" style="width: 80%; max-width: 40em;">
   <div
     class="card-body"
     style="background-color: rgb(250, 234, 234);"
