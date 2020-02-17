@@ -48,18 +48,7 @@ async function main() {
     const id = await userQuery("What is team member's company ID?");
 
     let newObj = await makeObj();
-    console.log("==============================");
-    //   console.log(newObj);
-
-    let lastKey;
-    if (role === "Engineer") {
-      lastKey = "Github: ";
-    } else if (role === "Intern") {
-      lastKey = "School: ";
-    } else {
-      lastKey = "Office number: ";
-    }
-
+    console.log("========================================================");
     function getLastVal() {
       if (newObj.getRole() === "Engineer") {
         return newObj.getGithub();
@@ -69,8 +58,17 @@ async function main() {
         return newObj.getOfficeNumber();
       }
     }
-
+    //   console.log(newObj);
     let lastVal = getLastVal();
+
+    let lastKey;
+    if (role === "Engineer") {
+      lastKey = `<a href="https://github.com/${lastVal}">Github</a>`;
+    } else if (role === "Intern") {
+      lastKey = `School: ${lastVal}`;
+    } else {
+      lastKey = `Office number: ${lastVal}`;
+    }
 
     // if (newObj.getRole === "Engineer") {
     //   newObjFunc = newObj.getGithub();
@@ -78,25 +76,26 @@ async function main() {
 
     let cardHTML = `
     <div class="col justify-content-center">
-    <div class="card my-1 mx-auto" style="width: 18rem;">
+    <div class="card my-1 mx-auto shadow-lg p-1 rounded" style="width: 80%;">
   <div
     class="card-body"
     style="background-color: rgb(250, 234, 234);"
   >
     <div class="titleRow">
-     <h2 class="card-title">
+     <h1 class="card-title">
     ${newObj.name}
-  </h2>
-  <h2>${newObj.getRole()}</h2>
+  </h1>
+  <h1>${newObj.getRole()}</h1>
   </div>
   
   <p class="card-text my-2">
   ID: ${newObj.id}
 </p>
 <hr />
-<p>Email: ${newObj.email}</p>
+<p>Email: <a href="mailto:${newObj.email}">${newObj.email}</a>
+</p>
 <hr />
-<p>${lastKey}${lastVal}</p>
+<p>${lastKey}</p>
   </div>
   </div>
   </div>`;
@@ -129,14 +128,17 @@ async function main() {
         height: 100%;
         width: 100%;
         position: fixed;
+        overflow-y: scroll;
       }
       #headerRow {
         color: white;
-        background-color: rgb(184, 52, 52);
-        height: 8em;
+        background-color: rgb(122, 7, 7);
+        height: 12em;
       }
       #headerRow h1 {
         padding-top: 1em;
+        font-size: 4em;
+
       }
       .col {
         display: flex;
@@ -150,6 +152,9 @@ async function main() {
       .container-fluid {
         padding-left: 0;
         padding-right: 0;
+      }
+      p {
+        font-size: 1.75em;
       }
     </style>
   </head>
@@ -189,7 +194,7 @@ async function main() {
 </html>
 `;
 
-  fs.writeFile("output.html", pageHTML, "utf8", err => {
+  fs.writeFile("./output/output.html", pageHTML, "utf8", err => {
     if (err) throw err;
     console.log("The file has been saved!");
   });
