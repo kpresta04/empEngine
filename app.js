@@ -22,6 +22,14 @@ async function main() {
     }
     return true;
   }
+  async function emailValidator(input) {
+    if (input === "") {
+      return "Invalid input";
+    } else if (!validator.isEmail(input)) {
+      return "Invalid input";
+    }
+    return true;
+  }
 
   async function userQuery(message, validatorFunc = alphaValidator) {
     let uq = await inquirer.prompt({
@@ -69,7 +77,10 @@ async function main() {
 
     const empName = await userQuery("What is team member's name?");
     const role = await getRole();
-    const email = await userQuery("What is team member's email?");
+    const email = await userQuery(
+      "What is team member's email?",
+      emailValidator
+    );
     const id = await userQuery(
       "What is team member's company ID?",
       intValidator
