@@ -2,28 +2,41 @@ const inquirer = require("inquirer"),
   Intern = require("./lib/Intern"),
   Engineer = require("./lib/Engineer"),
   Manager = require("./lib/Manager"),
-  fs = require("fs");
+  fs = require("fs"),
+  validator = require("validator");
 
 async function main() {
-  async function inqValidator(input) {
+  async function alphaValidator(input) {
     if (input === "") {
+      return "Invalid input";
+    } else if (!validator.isAlphanumeric(input)) {
+      return "Invalid input";
+    }
+    return true;
+  }
+  async function intValidator(input) {
+    if (input === "") {
+      return "Invalid input";
+    } else if (!validator.isInt(input)) {
       return "Invalid input";
     }
     return true;
   }
 
-  async function userQuery(message) {
+  async function userQuery(message, validatorFunc = alphaValidator) {
     let uq = await inquirer.prompt({
       message: message,
       name: "result",
       type: "input",
-      validate: inqValidator
+      validate: validatorFunc
     });
 
     return uq.result;
   }
+
   let teamCount = await userQuery(
-    "How many team members would you like to create?"
+    "How many team members would you like to create?",
+    intValidator
   );
   let cardHTMLArray = [];
 
@@ -43,7 +56,10 @@ async function main() {
         const github = await userQuery("What is their github username?");
         return new Engineer(empName, id, email, github);
       } else if (role === "Manager") {
-        const officeNum = await userQuery("What is their office number?");
+        const officeNum = await userQuery(
+          "What is their office number?",
+          intValidator
+        );
         return new Manager(empName, id, email, officeNum);
       } else {
         const schoolName = await userQuery("What is the name of their school?");
@@ -54,7 +70,10 @@ async function main() {
     const empName = await userQuery("What is team member's name?");
     const role = await getRole();
     const email = await userQuery("What is team member's email?");
-    const id = await userQuery("What is team member's company ID?");
+    const id = await userQuery(
+      "What is team member's company ID?",
+      intValidator
+    );
 
     let newObj = await makeObj();
     console.log("=====================================");
